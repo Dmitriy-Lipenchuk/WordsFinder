@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static utils.WordsHelper.countLetters;
-import static utils.WordsHelper.getUtf8String;
+import static utils.WordsHelper.*;
 
 @Component
 public final class WordsDao {
@@ -79,9 +78,13 @@ public final class WordsDao {
     }
 
     public List<String> getWordsWithSameLetters(@NotNull String word) {
+        if (!checkIfCyrillic(word)) {
+            String wrongInputMessage = "\u0412\u0432\u0435\u0434\u0451\u043D\u043E\u0435 \u0441\u043B\u043E\u0432\u043E \u043D\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u044C \u043D\u0438\u0447\u0435\u0433\u043E \u043A\u0440\u043E\u043C\u0435 \u043A\u0438\u0440\u0438\u043B\u043B\u0438\u0446\u044B";
+            return List.of(wrongInputMessage); // "Введёное слово не должно содержать ничего кроме кириллицы"
+        }
+
         List<String> words = new ArrayList<>();
         word = getUtf8String(word)
-                .replaceAll("\\s+", "")
                 .toLowerCase(Locale.ROOT);
 
         try (Connection connection = ConnectionManager.open()) {

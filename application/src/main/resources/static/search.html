@@ -92,11 +92,11 @@
                 return res.json();
             })
             .then(data => {
-                var markup = '<h3 id = "words">';
+                var markup = '<h5 id = "words">';
                 data.forEach(word => {
                     markup += word + ' ';
                 })
-                markup += '</h3>';
+                markup += '</h5>';
                 document.getElementById('words_block').insertAdjacentHTML('beforeend', markup);
             })
     }
