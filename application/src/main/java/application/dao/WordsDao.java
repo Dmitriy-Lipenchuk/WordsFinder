@@ -1,8 +1,8 @@
-package dao;
+package application.dao;
 
 import db.utils.ConnectionManager;
 import org.jetbrains.annotations.NotNull;
-import utils.WordsHelper;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import static utils.WordsHelper.*;
+import static utils.WordsHelper.countLetters;
+import static utils.WordsHelper.getUtf8String;
 
+@Component
 public final class WordsDao {
     private static final String INSERT_INTO_WORDS = """
             INSERT INTO words (word, a, b, v, g, d, e, je, z, i, ji, k, l, m, n, o, p, r, s, t, u, f, h, ce, ch, sh, she, tvd, yi, mgk, ee, yu, ya,yo)
@@ -79,7 +82,7 @@ public final class WordsDao {
         List<String> words = new ArrayList<>();
         word = getUtf8String(word)
                 .replaceAll("\\s+", "")
-                .toLowerCase();
+                .toLowerCase(Locale.ROOT);
 
         try (Connection connection = ConnectionManager.open()) {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WORDS_WITH_SAME_LETTERS);
