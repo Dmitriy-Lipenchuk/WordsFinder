@@ -30,19 +30,14 @@
         -moz-border-radius: 3px;
     }
 
-    #custom-search-input button {
+    #search_button {
         border: 0;
-        background: grey;
+        background: #afafaf;
 
-        padding: 5px 5px;
-        margin-top: 2px;
-        position: absolute;
-        right: 2px;
+        margin-top: 10px;
 
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
+        margin-bottom: 10px;
+        border-radius: 7px;
         color: #ffffff;
         cursor: unset;
         z-index: 2;
@@ -60,15 +55,16 @@
             <div id="custom-search-input">
                 <div class="input-group">
                     <input id="search_input" type="text" class="search-query form-control" placeholder="Поиск"/>
-                    <span class="input-group-btn">
-                        <button id="search_button" type="button" class="btn btn-primary">Найти</button>
-                    </span>
                 </div>
             </div>
         </div>
-        <ul></ul>
     </div>
+    <span class="input-group-btn">
+        <button id="search_button" type="button" class="btn btn-primary">Найти</button>
+    </span>
+    <div id="words_block"></div>
 </div>
+
 
 <script>
     const searchButton = document.getElementById("search_button");
@@ -96,12 +92,12 @@
                 return res.json();
             })
             .then(data => {
-                var markup = '<h2 id = "words">';
+                var markup = '<h3 id = "words">';
                 data.forEach(word => {
                     markup += word + ' ';
                 })
-                markup += '</h2>';
-                document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+                markup += '</h3>';
+                document.getElementById('words_block').insertAdjacentHTML('beforeend', markup);
             })
     }
 </script>
