@@ -8,8 +8,7 @@ import java.util.List;
 
 @Component
 public class WordsService {
-    final
-    WordsDao wordsDao;
+    private final WordsDao wordsDao;
 
     public WordsService(WordsDao wordsDao) {
         this.wordsDao = wordsDao;

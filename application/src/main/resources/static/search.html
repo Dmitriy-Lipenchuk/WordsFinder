@@ -24,7 +24,7 @@
         width: 100%;
         padding-right: 3px;
         padding-left: 15px;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -33,12 +33,12 @@
     #custom-search-input button {
         border: 0;
         background: grey;
-        /** belows styles are working good */
+
         padding: 5px 5px;
         margin-top: 2px;
         position: absolute;
         right: 2px;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -59,7 +59,7 @@
         <div class="col-12">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input id = "search_input" type="text" class="search-query form-control" placeholder="Поиск"/>
+                    <input id="search_input" type="text" class="search-query form-control" placeholder="Поиск"/>
                     <span class="input-group-btn">
                         <button id="search_button" type="button" class="btn btn-primary">Найти</button>
                     </span>
@@ -76,7 +76,7 @@
 
     searchButton.addEventListener("click", showWords);
 
-    input.addEventListener("keypress", function(event) {
+    input.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             searchButton.click();
         }
