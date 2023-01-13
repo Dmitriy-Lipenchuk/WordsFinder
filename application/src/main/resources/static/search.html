@@ -1,0 +1,107 @@
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <meta charset=utf-8>
+</head>
+
+<style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+    .container {
+        padding: 10%;
+        text-align: center;
+    }
+
+    #custom-search-input {
+        margin: 0;
+        margin-top: 10px;
+        padding: 0;
+    }
+
+    #custom-search-input .search-query {
+        width: 100%;
+        padding-right: 3px;
+        padding-left: 15px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+    }
+
+    #custom-search-input button {
+        border: 0;
+        background: grey;
+        /** belows styles are working good */
+        padding: 5px 5px;
+        margin-top: 2px;
+        position: absolute;
+        right: 2px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        color: #ffffff;
+        cursor: unset;
+        z-index: 2;
+    }
+
+    .search-query:focus {
+        z-index: 0;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12"><h2>Введите слово</h2></div>
+        <div class="col-12">
+            <div id="custom-search-input">
+                <div class="input-group">
+                    <input id = "search_input" type="text" class="search-query form-control" placeholder="Поиск"/>
+                    <span class="input-group-btn">
+                        <button id="search_button" type="button" class="btn btn-primary">Найти</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <ul></ul>
+    </div>
+</div>
+
+<script>
+    const searchButton = document.getElementById("search_button");
+    const input = document.getElementById("search_input");
+
+    searchButton.addEventListener("click", showWords);
+
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            searchButton.click();
+        }
+    });
+
+    function showWords() {
+        var word = document.getElementById('search_input').value;
+
+        fetch('/get-words-with-same-letters?word=' + word)
+            .then(res => {
+                const markup = document.querySelectorAll("#words");
+                if (!(markup === null)) {
+                    markup.forEach(element => {
+                        element.remove();
+                    })
+                }
+                return res.json();
+            })
+            .then(data => {
+                var markup = '<h2 id = "words">';
+                data.forEach(word => {
+                    markup += word + ' ';
+                })
+                markup += '</h2>';
+                document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+            })
+    }
+</script>

@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class WordsController {
+public class WordsRESTController {
     private final WordsService wordsService;
 
     @Autowired
-    public WordsController(WordsService wordsService) {
+    public WordsRESTController(WordsService wordsService) {
         this.wordsService = wordsService;
     }
 
-    @GetMapping(value = "/random-word")
+    @GetMapping(value = "/get-words-with-same-letters")
     public List<String> getWordsWithSameLetters(@RequestParam String word) {
      return wordsService.getWordsWithSameLetters(word);
     }
