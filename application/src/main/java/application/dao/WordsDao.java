@@ -61,11 +61,16 @@ public final class WordsDao {
             AND yo <= ?
             """;
 
+    private static final String CHECK_IF_WORD_EXISTS = """
+            SELECT word FROM words
+            WHERE word = ?
+            """;
+
     public WordsDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void insertWord(@NotNull String word) {
+    public void create(@NotNull String word) {
         word = getUtf8String(word);
 
         try (Connection connection = dataSource.getConnection()) {
@@ -112,5 +117,26 @@ public final class WordsDao {
         }
 
         return words;
+    }
+
+    public  boolean checkIfWordExists(@NotNull String word) {
+        // TODO: - Сделать исключения для случаев когда пользователь вводит некоретные данные + добавить для них хендлеры
+        if (!checkIfCyrillic(word)) {
+            return true;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(CHECK_IF_WORD_EXISTS);
+            statement.setString(1, word);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
