@@ -15,12 +15,14 @@ repositories {
 
 dependencies {
     implementation(project(":utils"))
-    implementation(project(":db_utils"))
 
     implementation("org.springframework.boot:spring-boot-starter:3.0.1")
     implementation("org.springframework.boot:spring-boot-starter-web:3.0.1")
     implementation("org.springframework:spring-jdbc:6.0.4")
 
     implementation("org.flywaydb:flyway-core:9.11.0")
+
+    implementation("com.zaxxer:HikariCP:5.0.1")
+
     implementation("org.postgresql:postgresql:42.5.1")
 }

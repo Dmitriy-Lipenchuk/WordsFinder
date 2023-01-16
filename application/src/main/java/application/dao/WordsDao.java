@@ -1,9 +1,9 @@
 package application.dao;
 
-import db.utils.ConnectionManager;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +16,9 @@ import static utils.WordsHelper.*;
 
 @Component
 public final class WordsDao {
+
+    private final DataSource dataSource;
+
     private static final String INSERT_INTO_WORDS = """
             INSERT INTO words (word, a, b, v, g, d, e, je, z, i, ji, k, l, m, n, o, p, r, s, t, u, f, h, ce, ch, sh, she, tvd, yi, mgk, ee, yu, ya,yo)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -58,10 +61,14 @@ public final class WordsDao {
             AND yo <= ?
             """;
 
+    public WordsDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public void insertWord(@NotNull String word) {
         word = getUtf8String(word);
 
-        try (Connection connection = ConnectionManager.open()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(INSERT_INTO_WORDS);
             int[] letters = countLetters(word);
 
@@ -87,7 +94,7 @@ public final class WordsDao {
         word = getUtf8String(word)
                 .toLowerCase(Locale.ROOT);
 
-        try (Connection connection = ConnectionManager.open()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WORDS_WITH_SAME_LETTERS);
             int[] letters = countLetters(word);
 

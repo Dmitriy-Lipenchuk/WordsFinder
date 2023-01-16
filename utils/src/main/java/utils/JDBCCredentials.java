@@ -1,8 +1,8 @@
-package db.utils;
+package utils;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class JDBCCredentials {
+final class JDBCCredentials {
 
     public static final @NotNull JDBCCredentials DEFAULT = new JDBCCredentials(
             "localhost",

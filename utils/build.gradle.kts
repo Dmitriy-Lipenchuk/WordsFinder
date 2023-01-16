@@ -9,5 +9,5 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":db_utils"))
+    implementation("org.postgresql:postgresql:42.5.0")
 }

@@ -1,6 +1,5 @@
 package utils;
 
-import db.utils.ConnectionManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -10,10 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public final class WordsFromFileToDb {
+final class WordsFromFileToDb {
 
     private WordsFromFileToDb() {
-
     }
 
     private static final String INSERT_INTO_WORDS = """
@@ -21,7 +19,7 @@ public final class WordsFromFileToDb {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """;
 
-    public void insertWordsBatchedFromFile(@NotNull Path path) throws IOException {
+    public static void insertWordsBatchedFromFile(@NotNull Path path) throws IOException {
         try (Connection connection = ConnectionManager.open()) {
             PreparedStatement statement = connection.prepareStatement(INSERT_INTO_WORDS);
 

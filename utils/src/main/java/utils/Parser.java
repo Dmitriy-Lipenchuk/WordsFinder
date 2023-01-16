@@ -9,12 +9,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class Parser {
+final class Parser {
     private final static Path TO_PARSE = Path.of(System.getProperty("user.dir"), "utils", "src", "main", "resources", "raw_words.txt");
     private final static Path PARSED = Path.of(System.getProperty("user.dir"), "utils", "src", "main", "resources", "words.txt");
 
-   private Parser () {
-   }
+    private Parser() {
+    }
 
     public static void main(String[] args) throws IOException {
         parseWords(TO_PARSE, PARSED);

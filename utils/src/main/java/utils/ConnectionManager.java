@@ -1,4 +1,4 @@
-package db.utils;
+package utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionManager {
+class ConnectionManager {
 
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
