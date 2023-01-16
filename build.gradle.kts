@@ -17,6 +17,5 @@ allprojects {
 
     dependencies {
         implementation("com.intellij:annotations:12.0")
-        implementation("org.springframework.boot:spring-boot-starter-web:3.0.1")
     }
 }

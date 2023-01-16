@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS suggested_words
+(
+    word VARCHAR NOT NULL PRIMARY KEY
+)
