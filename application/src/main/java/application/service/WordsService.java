@@ -2,6 +2,7 @@ package application.service;
 
 import application.dao.SuggestedWordsDao;
 import application.dao.WordsDao;
+import application.exceptions.WordAlreadyExistException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class WordsService {
 
     public String suggestWord(@NotNull String word) {
         if (wordsDao.checkIfWordExists(word)) {
-            return "\u0422\u0430\u043A\u043E\u0435 \u0441\u043B\u043E\u0432\u043E \u0443\u0436\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442"; // "Такое слово уже существует"
+            throw new WordAlreadyExistException();
         }
 
         suggestedWordsDao.create(word);

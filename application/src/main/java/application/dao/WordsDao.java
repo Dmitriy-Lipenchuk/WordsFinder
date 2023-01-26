@@ -1,5 +1,6 @@
 package application.dao;
 
+import application.exceptions.NonCyrillicStringException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +67,11 @@ public final class WordsDao {
             WHERE word = ?
             """;
 
+    private static final String CHECK_IF_WORD_EXISTS_IN_SUGGESTED_WORDS = """
+            SELECT word FROM suggested_words
+            WHERE word = ?
+            """;
+
     public WordsDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -91,8 +97,7 @@ public final class WordsDao {
 
     public List<String> getWordsWithSameLetters(@NotNull String word) {
         if (!checkIfCyrillic(word)) {
-            String wrongInputMessage = "\u0412\u0432\u0435\u0434\u0451\u043D\u043E\u0435 \u0441\u043B\u043E\u0432\u043E \u043D\u0435 \u0434\u043E\u043B\u0436\u043D\u043E \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u044C \u043D\u0438\u0447\u0435\u0433\u043E \u043A\u0440\u043E\u043C\u0435 \u043A\u0438\u0440\u0438\u043B\u043B\u0438\u0446\u044B";
-            return List.of(wrongInputMessage); // "Введёное слово не должно содержать ничего кроме кириллицы"
+            throw new NonCyrillicStringException();
         }
 
         List<String> words = new ArrayList<>();
@@ -120,21 +125,21 @@ public final class WordsDao {
     }
 
     public  boolean checkIfWordExists(@NotNull String word) {
-        // TODO: - Сделать исключения для случаев когда пользователь вводит некоретные данные + добавить для них хендлеры
         if (!checkIfCyrillic(word)) {
-            return true;
+            throw new NonCyrillicStringException();
         }
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(CHECK_IF_WORD_EXISTS);
             statement.setString(1, word);
 
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            }
+            PreparedStatement secondStatement = connection.prepareStatement(CHECK_IF_WORD_EXISTS_IN_SUGGESTED_WORDS);
+            secondStatement.setString(1, word);
 
-            return false;
+            ResultSet resultSet = statement.executeQuery();
+            ResultSet secondResultSet = secondStatement.executeQuery();
+
+            return resultSet.next() || secondResultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
