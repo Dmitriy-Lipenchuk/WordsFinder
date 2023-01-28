@@ -1,11 +1,12 @@
 package application.controller;
 
+import application.model.Word;
 import application.service.WordsService;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,8 +25,10 @@ public class WordsRESTController {
     }
 
     //TODO: поменять тиа запроса на Post
-    @GetMapping(value = "/suggest-word")
-    public List<String> suggestWord(@RequestParam @NotNull String word) {
-        return List.of(wordsService.suggestWord(word));
+    @PostMapping(value = "/suggest-word",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> suggestWord(@RequestBody @NotNull Word word) {
+        return List.of(wordsService.suggestWord(word.getWord()));
     }
 }

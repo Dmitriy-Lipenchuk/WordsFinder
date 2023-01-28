@@ -121,7 +121,13 @@
     function suggestWord() {
         var word = document.getElementById('search_input').value;
 
-        fetch('/suggest-word?word=' + word)
+        fetch('/suggest-word', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(word)
+        })
             .then(res => {
                 const markup = document.querySelectorAll("#words");
                 if (!(markup === null)) {
