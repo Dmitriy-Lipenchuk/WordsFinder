@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import static utils.WordsHelper.*;
+import static utils.WordsHelper.checkIfCyrillic;
+import static utils.WordsHelper.countLetters;
 
 @Component
 public final class WordsDao {
@@ -77,8 +77,6 @@ public final class WordsDao {
     }
 
     public void create(@NotNull String word) {
-        word = getUtf8String(word);
-
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(INSERT_INTO_WORDS);
             int[] letters = countLetters(word);
@@ -101,8 +99,8 @@ public final class WordsDao {
         }
 
         List<String> words = new ArrayList<>();
-        word = getUtf8String(word)
-                .toLowerCase(Locale.ROOT);
+
+        word = word.toLowerCase();
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WORDS_WITH_SAME_LETTERS);

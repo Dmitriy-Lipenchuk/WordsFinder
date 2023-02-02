@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static utils.WordsHelper.getUtf8String;
-
 @Component
 public class SuggestedWordsDao {
     private final DataSource dataSource;
@@ -26,8 +24,6 @@ public class SuggestedWordsDao {
             """;
 
     public void create(@NotNull String word) {
-        word = getUtf8String(word);
-
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(INSERT_INTO_SUGGESTED_WORDS);
 

@@ -34,10 +34,6 @@ public final class WordsHelper {
         return lettres;
     }
 
-    public static String getUtf8String(@NotNull String word) {
-        return new String(word.getBytes(), StandardCharsets.UTF_8);
-    }
-
     public static String getUtf8StringFromFile(@NotNull String word) {
         return new String(word.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
     }
