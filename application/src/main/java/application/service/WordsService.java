@@ -28,6 +28,6 @@ public class WordsService {
         }
 
         suggestedWordsDao.create(word);
-        return "\u0421\u043B\u043E\u0432\u043E \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u043E"; // "РЎР»РѕРІРѕ РїСЂРµРґР»РѕР¶РµРЅРѕ"
+        return "Слово предложено";
     }
 }

@@ -127,6 +127,8 @@ public final class WordsDao {
             throw new NonCyrillicStringException();
         }
 
+        word = word.toLowerCase();
+
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(CHECK_IF_WORD_EXISTS);
             statement.setString(1, word);

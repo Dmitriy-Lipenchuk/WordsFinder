@@ -2,7 +2,6 @@ package application.controller;
 
 import application.model.Word;
 import application.service.WordsService;
-import com.fasterxml.jackson.databind.node.TextNode;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +23,6 @@ public class WordsRESTController {
         return wordsService.getWordsWithSameLetters(word);
     }
 
-    //TODO: поменять тиа запроса на Post
     @PostMapping(value = "/suggest-word",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
